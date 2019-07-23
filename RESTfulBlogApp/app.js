@@ -26,7 +26,7 @@ app.get("/", function(req, res){
 	
 });
 
-//Index
+//INDEX route
 app.get("/blogs", function(req, res){
 	//get all blogs from DB
 	Blog.find({}, function(err, blogs){
@@ -38,6 +38,28 @@ app.get("/blogs", function(req, res){
 		}
 	});
 	
+	
+});
+
+//NEW route
+
+app.get("/blogs/new", function(req, res){
+	res.render("new");
+});
+
+//CREATE RESTful route
+app.post("/blogs", function(req, res){
+
+	//create a new blog and save to db
+	Blog.create(req.body.blog, function(err, newBlog){
+		if(err){
+			res.render("new");
+		}
+		else{
+			//redirect back to blog page
+			res.redirect("/blogs");
+		}
+	});
 	
 });
 
