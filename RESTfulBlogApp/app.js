@@ -26,7 +26,7 @@ app.get("/", function(req, res){
 	
 });
 
-//INDEX route
+//INDEX route. Show all blogs
 app.get("/blogs", function(req, res){
 	//get all blogs from DB
 	Blog.find({}, function(err, blogs){
@@ -41,13 +41,12 @@ app.get("/blogs", function(req, res){
 	
 });
 
-//NEW route
-
+//NEW route. Show a new blog form
 app.get("/blogs/new", function(req, res){
 	res.render("new");
 });
 
-//CREATE RESTful route
+//CREATE RESTful route. Create a new blog, then redirect back to INDEX
 app.post("/blogs", function(req, res){
 
 	//create a new blog and save to db
@@ -58,6 +57,19 @@ app.post("/blogs", function(req, res){
 		else{
 			//redirect back to blog page
 			res.redirect("/blogs");
+		}
+	});
+	
+});
+
+//SHOW RESTful route. Show a specific blog
+app.get("/blogs/:id", function(req,res){
+	Blog.findById(req.params.id, function(err, foundBlog){
+		if(err){
+			res.redirect("/blogs");
+		}
+		else{
+			res.render("show", {blog: foundBlog});
 		}
 	});
 	
